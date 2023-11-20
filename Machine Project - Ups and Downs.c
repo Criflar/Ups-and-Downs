@@ -8,7 +8,7 @@
 #include<stdlib.h>
 #include<time.h>
 
-int nDiceRoll(){
+int nDiceRoll(void){
 	int nResult;
 	int nMinimum = 0; 
 	int nMaximum = 6;
@@ -17,18 +17,13 @@ int nDiceRoll(){
 	return nResult;
 }
 
-
-void vGameInstance(){
+void vDiceFeature(int nCurrentPlayer){
 	srand(time(NULL));
-    // Initializing of variables at the beginning of the game.
-    int nCurrentPlayer = 1;  // The game starts with Player 1.
-    int nGameOver = 0;      // The game is not over initially.
-    int nDiceRollResult, nPlayer1RollTemp, nPlayer2RollTemp;
+	
+	int nDiceRollResult, nPlayer1RollTemp, nPlayer2RollTemp;
     char cContinueInput;
-
-    while (!nGameOver) { // While the game is not over.
-		
-		printf("Press the Enter key to roll the die. ");
+    
+    	printf("Press the Enter key to roll the die. ");
 		scanf("%c", &cContinueInput);
 		
 		nDiceRollResult = nDiceRoll();
@@ -53,14 +48,31 @@ void vGameInstance(){
 				nPlayer2RollTemp = 0;
 			}
 		}
-		// * PUT FUNCTION FOR DICE ROLL AND UPDATED GAME BOARD HERE.
 		
 		if(nCurrentPlayer == 1){
 			nPlayer1RollTemp = nDiceRollResult;
 		} else {
 			nPlayer2RollTemp = nDiceRollResult;
 		}
+}
+
+void vPrintGameboard(){
+	
+}
+
+void vGameInstance(void){
+    // Initializing of variables at the beginning of the game.
+    int nCurrentPlayer = 1;  // The game starts with Player 1.
+    int nGameOver = 0;      // The game is not over initially.
+    int nDiceRollResult, nPlayer1RollTemp, nPlayer2RollTemp;
+    char cContinueInput;
+
+    while (!nGameOver) { // While the game is not over.
 		
+		vDiceFeature(nCurrentPlayer);
+		
+		
+		// * PUT FUNCTION FOR DICE ROLL AND UPDATED GAME BOARD HERE.
         if (nCurrentPlayer == 1) { // Switch turns
             nCurrentPlayer = 2;
         } else {

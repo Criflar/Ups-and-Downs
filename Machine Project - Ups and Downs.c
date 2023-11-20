@@ -23,7 +23,7 @@ void vDiceFeature(int nCurrentPlayer){
 	int nDiceRollResult, nPlayer1RollTemp, nPlayer2RollTemp;
     char cContinueInput;
     
-    	printf("Press the Enter key to roll the die. ");
+    	printf("\nPress the Enter key to roll the die. ");
 		scanf("%c", &cContinueInput);
 		
 		nDiceRollResult = nDiceRoll();
@@ -56,8 +56,24 @@ void vDiceFeature(int nCurrentPlayer){
 		}
 }
 
-void vPrintGameboard(){
+void vPrintGameBoard() {
+    int nBoardSize = 10;  // Determines the size of the board.
+    int nTiles = 99;
+    int nDirection = 1;  // 1 for left to right, -1 for right to left. Multiplies by -1 to interchange.
+	int nRow, nColumn;
 	
+    for (nRow = nBoardSize - 1; nRow >= 0; nRow--) {
+        for (nColumn = 0; nColumn < nBoardSize; nColumn++) {
+            if (nDirection == 1) {
+                printf("%2d ", nTiles - nColumn); // "%c , 219" or "%2d ", nTiles - nColumn
+            } else {
+                printf("%2d ", nTiles - nBoardSize + nColumn + 1); // "%c , 219" or "%2d ", nTiles - nBoardSize + nColumn + 1
+            }
+        }
+        nDirection *= -1;  // Toggle direction after each row.
+        nTiles -= nBoardSize;
+        printf("\n\n");
+    }
 }
 
 void vGameInstance(void){
@@ -68,7 +84,7 @@ void vGameInstance(void){
     char cContinueInput;
 
     while (!nGameOver) { // While the game is not over.
-		
+		vPrintGameBoard();
 		vDiceFeature(nCurrentPlayer);
 		
 		

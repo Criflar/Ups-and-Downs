@@ -62,7 +62,7 @@ void vPrintGameBoard(int nPlayer1Position, int nPlayer2Position){
     int nDirection = 1;  // 1 for left to right, -1 for right to left. Multiplies by -1 to interchange.
 	int nRow, nColumn, nPlayerMovement;
 	
-	
+	// GAMEBOARD
     for (nRow = nBoardSize - 1; nRow >= 0; nRow--) {
         for (nColumn = 0; nColumn < nBoardSize; nColumn++) {
             if (nDirection == 1) {
@@ -87,6 +87,9 @@ void vPrintGameBoard(int nPlayer1Position, int nPlayer2Position){
         nTiles -= nBoardSize;
         printf("\n\n");
     }
+    
+    // DICE ROLL
+    
 }
 
 int nPlayerMovement(void){ // This function determines the number of movements the player will make.
@@ -176,12 +179,11 @@ void vGameInstance(void){
     // Initializing of variables at the beginning of the game.
     int nCurrentPlayer = 1;  // The game starts with Player 1.
     int nGameOver = 0;      // The game is not over initially.
-	int nPlayer1Position, nPlayer2Position;
-	nPlayer1Position = 0; nPlayer2Position = 0; // Player 1 and Player 2 start at the 0 position.
+	int nInitialPlayer1Position, nInitialPlayer2Position;
+	nInitialPlayer1Position = 0; nInitialPlayer2Position = 0; // Player 1 and Player 2 start at the 0 position.
 	
     while (!nGameOver) { // While the game is not over.
-    	vUpdateGameBoard(nPlayer1Position, nPlayer2Position);
-		vDiceFeature(nCurrentPlayer);
+    	vUpdateGameBoard(nInitialPlayer1Position, nInitialPlayer2Position);
 		
 		// * PUT FUNCTION FOR DICE ROLL AND UPDATED GAME BOARD HERE.
         if (nCurrentPlayer == 1) { // Switch turns

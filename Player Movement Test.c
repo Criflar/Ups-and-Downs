@@ -18,7 +18,6 @@ int nDiceRoll(void){
 }
 
 void vDiceFeature(int nCurrentPlayer){
-	srand(time(NULL));
 	
 	int nDiceRollResult, nPlayer1RollTemp, nPlayer2RollTemp;
     char cContinueInput;
@@ -62,7 +61,6 @@ void vPrintGameBoard(int nPlayer1Position, int nPlayer2Position){
     int nDirection = 1;  // 1 for left to right, -1 for right to left. Multiplies by -1 to interchange.
 	int nRow, nColumn, nPlayerMovement;
 	
-	// GAMEBOARD
     for (nRow = nBoardSize - 1; nRow >= 0; nRow--) {
         for (nColumn = 0; nColumn < nBoardSize; nColumn++) {
             if (nDirection == 1) {
@@ -88,8 +86,6 @@ void vPrintGameBoard(int nPlayer1Position, int nPlayer2Position){
         printf("\n\n");
     }
     
-    // DICE ROLL
-    
 }
 
 int nPlayerMovement(void){ // This function determines the number of movements the player will make.
@@ -109,28 +105,32 @@ int nCurrentPlayerPlacement(int nCurrentPosition){ // This function adds the num
 	return nCurrentPosition;
 }
 
-void vUpdateGameBoard(int nPlayer1Position, int nPlayer2Position) {
-    int nBoardSize = 10;  // Determines the size of the board.
-    int nTiles = 99;
-    int nDirection = 1;  // 1 for left to right, -1 for right to left. Multiplies by -1 to interchange.
+void vCreateGameBoard(int *nPlayer1Position, int *nPlayer2Position){
+	int nBoardSize, nTiles;
+	int nDirection;
 	int i, nCounter, nColumn;
+	
+	nBoardSize = 10; // Determines the size of the board.
+	nTiles = 99;
+	nDirection = 1; // 1 for left to right, -1 for right to left. Multiplies by -1 to interchange.
 	nCounter = 0;
 	nColumn = 0;
-    
+	
+	// GAMEBOARD
 	for (i = nTiles; i >= 0; i--){
     	
     	if (nDirection == 1){
-    		if ((nPlayer1Position == nPlayer2Position) && (nPlayer1Position == i) && (nPlayer2Position == i)){
+    		if ((*nPlayer1Position == *nPlayer2Position) && (*nPlayer1Position == i) && (*nPlayer2Position == i)){
     			printf(" @ ");
 			}
-	    	else if (nPlayer1Position == i){
+	    	else if (*nPlayer1Position == i){
 	    		printf("P1 ");
 			}
-			else if (nPlayer2Position == i){
+			else if (*nPlayer2Position == i){
 				printf("P2 ");
 			}
 			else {
-				printf("%2d ", i); // "%c " , 219 or "%2d ", i
+				printf("%c " , 219); // "%c " , 219 or "%2d ", i
 			}
 			
 			nCounter++;
@@ -143,20 +143,20 @@ void vUpdateGameBoard(int nPlayer1Position, int nPlayer2Position) {
 		} 
 		
 		else {
-			if ((nPlayer1Position == nPlayer2Position) && (nPlayer1Position == nTiles - nBoardSize + nColumn + 1) && (nPlayer2Position == nTiles - nBoardSize + nColumn + 1)){
+			if ((*nPlayer1Position == *nPlayer2Position) && (*nPlayer1Position == nTiles - nBoardSize + nColumn + 1) && (*nPlayer2Position == nTiles - nBoardSize + nColumn + 1)){
     			printf(" @ ");
     			nColumn++;
 			}
-	    	else if (nPlayer1Position == nTiles - nBoardSize + nColumn + 1){
+	    	else if (*nPlayer1Position == nTiles - nBoardSize + nColumn + 1){
 	    		printf("P1 ");
 	    		nColumn++;
 			}
-			else if (nPlayer2Position == nTiles - nBoardSize + nColumn + 1){
+			else if (*nPlayer2Position == nTiles - nBoardSize + nColumn + 1){
 				printf("P2 ");
 				nColumn++;
 			}
 			else {
-				printf("%2d ", nTiles - nBoardSize + nColumn + 1); // "%c " , 219 or "%2d ", nTiles - nBoardSize + nColumn + 1
+				printf("%c " , 219); // "%c " , 219 or "%2d ", nTiles - nBoardSize + nColumn + 1
 				nColumn++;
 			}
 			
@@ -175,6 +175,138 @@ void vUpdateGameBoard(int nPlayer1Position, int nPlayer2Position) {
 	}
 }
 
+void vUpdateGameBoard(int nCurrentPlayer, int *nPlayer1Position, int *nPlayer2Position) {
+	
+	int nBoardSize, nTiles;
+	int nDirection;
+	int i, nCounter, nColumn;
+	
+	int nDiceRollResult, nPlayer1RollTemp, nPlayer2RollTemp;
+    char cContinueInput;
+	
+	nBoardSize = 10; // Determines the size of the board.
+	nTiles = 99;
+	nDirection = 1; // 1 for left to right, -1 for right to left. Multiplies by -1 to interchange.
+	nCounter = 0;
+	nColumn = 0;
+	nDiceRollResult = 0;
+	nPlayer1RollTemp = 0;
+	nPlayer2RollTemp = 0;
+    
+    
+    // GAMEBOARD
+	for (i = nTiles; i >= 0; i--){
+    	
+    	if (nDirection == 1){
+    		if ((*nPlayer1Position == *nPlayer2Position) && (*nPlayer1Position == i) && (*nPlayer2Position == i)){
+    			printf(" @ ");
+			}
+	    	else if (*nPlayer1Position == i){
+	    		printf("P1 ");
+			}
+			else if (*nPlayer2Position == i){
+				printf("P2 ");
+			}
+			else {
+				printf("%c " , 219); // "%c " , 219 or "%2d ", i
+			}
+			
+			nCounter++;
+	    	
+	    	if (nCounter == 10){
+	    		nCounter = 0;
+	    		nTiles -= 10;
+	    		printf("\n\n");
+			}
+		} 
+		
+		else {
+			if ((*nPlayer1Position == *nPlayer2Position) && (*nPlayer1Position == nTiles - nBoardSize + nColumn + 1) && (*nPlayer2Position == nTiles - nBoardSize + nColumn + 1)){
+    			printf(" @ ");
+    			nColumn++;
+			}
+	    	else if (*nPlayer1Position == nTiles - nBoardSize + nColumn + 1){
+	    		printf("P1 ");
+	    		nColumn++;
+			}
+			else if (*nPlayer2Position == nTiles - nBoardSize + nColumn + 1){
+				printf("P2 ");
+				nColumn++;
+			}
+			else {
+				printf("%c " , 219); // "%c " , 219 or "%2d ", nTiles - nBoardSize + nColumn + 1
+				nColumn++;
+			}
+			
+			nCounter++;
+	    	
+	    	if (nCounter == 10){
+	    		nCounter = 0;
+	    		nColumn = 0;
+	    		nTiles -= 10;
+	    		printf("\n\n");
+			}
+		} 
+    	
+    	if (i % 10 == 0)
+    	nDirection *= -1; // Toggle direction after each row.
+	}
+	
+	// DICE ROLL
+	    
+    	printf("\nPress the Enter key to roll the die. ");
+		scanf("%c", &cContinueInput);
+		
+		nDiceRollResult = nDiceRoll();
+		if (nCurrentPlayer == 1){
+			*nPlayer1Position += nDiceRollResult;
+		}
+		else if (nCurrentPlayer == 2){
+			*nPlayer2Position += nDiceRollResult;
+		}
+		printf("Player %d rolled %d.\n\n", nCurrentPlayer, nDiceRollResult);
+		
+		if (nCurrentPlayer == 1){
+			if(nDiceRollResult == 1 && nPlayer1RollTemp == 1){
+				printf("Player 1, you rolled '1' twice in a row and get another turn! Press the Enter key to roll the die.");
+				scanf("%c", &cContinueInput);
+				nDiceRollResult = nDiceRoll();
+				*nPlayer1Position += nDiceRollResult;
+				printf("Player %d rolled %d.\n\n", nCurrentPlayer, nDiceRollResult);
+				nPlayer1RollTemp = 0;
+			}
+		}
+		
+		else if (nCurrentPlayer == 2){
+			if(nDiceRollResult == 1 && nPlayer2RollTemp == 1){
+				printf("Player 2, you rolled '1' twice in a row and get another turn! Press the Enter key to roll the die.");
+				scanf("%c", &cContinueInput);
+				nDiceRollResult = nDiceRoll();
+				*nPlayer2Position += nDiceRollResult;
+				printf("Player %d rolled %d.\n\n", nCurrentPlayer, nDiceRollResult);
+				nPlayer2RollTemp = 0;
+			}
+		}
+		
+		if(nCurrentPlayer == 1){
+			nPlayer1RollTemp = nDiceRollResult;
+		} else {
+			nPlayer2RollTemp = nDiceRollResult;
+		}
+		
+		// PLAYER MOVEMENT
+		if (*nPlayer1Position >= 99){
+			*nPlayer1Position = 99;
+			vCreateGameBoard(nPlayer1Position, nPlayer2Position);
+		}
+		else if (*nPlayer2Position >= 99){
+			*nPlayer2Position = 99;
+			vCreateGameBoard(nPlayer1Position, nPlayer2Position);
+		}
+		
+		printf("\n%d %d\n\n", nPlayer1RollTemp, nPlayer2RollTemp);
+}
+
 void vGameInstance(void){
     // Initializing of variables at the beginning of the game.
     int nCurrentPlayer = 1;  // The game starts with Player 1.
@@ -183,7 +315,8 @@ void vGameInstance(void){
 	nInitialPlayer1Position = 0; nInitialPlayer2Position = 0; // Player 1 and Player 2 start at the 0 position.
 	
     while (!nGameOver) { // While the game is not over.
-    	vUpdateGameBoard(nInitialPlayer1Position, nInitialPlayer2Position);
+    	 
+    	vUpdateGameBoard(nCurrentPlayer, &nInitialPlayer1Position, &nInitialPlayer2Position);
 		
 		// * PUT FUNCTION FOR DICE ROLL AND UPDATED GAME BOARD HERE.
         if (nCurrentPlayer == 1) { // Switch turns
@@ -191,11 +324,22 @@ void vGameInstance(void){
         } else {
             nCurrentPlayer = 1;
         }
+        
+        // * GAME OVER
+        if (nInitialPlayer1Position >= 99){
+        	printf("Congratulations! Player 1 is the winner.");
+        	nGameOver = 1;
+		}
+		else if (nInitialPlayer2Position >= 99){
+			printf("Congratulations! Player 2 is the winner.");
+			nGameOver = 1;
+		}
     }
-	// * GAME OVER
+	
 }
 
 int main(){
+	srand(time(NULL));
 	vGameInstance();	
 	return 0;
 }

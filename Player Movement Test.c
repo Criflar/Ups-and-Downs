@@ -130,7 +130,7 @@ void vCreateGameBoard(int *nPlayer1Position, int *nPlayer2Position){
 				printf("P2 ");
 			}
 			else {
-				printf("%c " , 219); // "%c " , 219 or "%2d ", i
+				printf("%2d ", i); // "%c " , 219 or "%2d ", i
 			}
 			
 			nCounter++;
@@ -156,7 +156,7 @@ void vCreateGameBoard(int *nPlayer1Position, int *nPlayer2Position){
 				nColumn++;
 			}
 			else {
-				printf("%c " , 219); // "%c " , 219 or "%2d ", nTiles - nBoardSize + nColumn + 1
+				printf("%2d ", nTiles - nBoardSize + nColumn + 1); // "%c " , 219 or "%2d ", nTiles - nBoardSize + nColumn + 1
 				nColumn++;
 			}
 			
@@ -190,8 +190,6 @@ void vUpdateGameBoard(int nCurrentPlayer, int *nPlayer1Position, int *nPlayer2Po
 	nCounter = 0;
 	nColumn = 0;
 	nDiceRollResult = 0;
-	nPlayer1RollTemp = 0;
-	nPlayer2RollTemp = 0;
     
     
     // GAMEBOARD
@@ -208,7 +206,7 @@ void vUpdateGameBoard(int nCurrentPlayer, int *nPlayer1Position, int *nPlayer2Po
 				printf("P2 ");
 			}
 			else {
-				printf("%c " , 219); // "%c " , 219 or "%2d ", i
+				printf("%2d ", i); // "%c " , 219 or "%2d ", i
 			}
 			
 			nCounter++;
@@ -234,7 +232,7 @@ void vUpdateGameBoard(int nCurrentPlayer, int *nPlayer1Position, int *nPlayer2Po
 				nColumn++;
 			}
 			else {
-				printf("%c " , 219); // "%c " , 219 or "%2d ", nTiles - nBoardSize + nColumn + 1
+				printf("%2d ", nTiles - nBoardSize + nColumn + 1); // "%c " , 219 or "%2d ", nTiles - nBoardSize + nColumn + 1
 				nColumn++;
 			}
 			
@@ -268,6 +266,7 @@ void vUpdateGameBoard(int nCurrentPlayer, int *nPlayer1Position, int *nPlayer2Po
 		
 		if (nCurrentPlayer == 1){
 			if(nDiceRollResult == 1 && nPlayer1RollTemp == 1){
+				vCreateGameBoard(nPlayer1Position, nPlayer2Position);
 				printf("Player 1, you rolled '1' twice in a row and get another turn! Press the Enter key to roll the die.");
 				scanf("%c", &cContinueInput);
 				nDiceRollResult = nDiceRoll();
@@ -279,6 +278,7 @@ void vUpdateGameBoard(int nCurrentPlayer, int *nPlayer1Position, int *nPlayer2Po
 		
 		else if (nCurrentPlayer == 2){
 			if(nDiceRollResult == 1 && nPlayer2RollTemp == 1){
+				vCreateGameBoard(nPlayer1Position, nPlayer2Position);
 				printf("Player 2, you rolled '1' twice in a row and get another turn! Press the Enter key to roll the die.");
 				scanf("%c", &cContinueInput);
 				nDiceRollResult = nDiceRoll();
